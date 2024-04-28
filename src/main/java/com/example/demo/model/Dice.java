@@ -1,18 +1,18 @@
 package com.example.demo.model;
 
 
-import lombok.*;
+import lombok.Getter;
 
 import java.util.Random;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@Setter
 public class Dice {
 
-    private Integer count;
+    private final Integer count;
+
+    public Dice(Integer count) {
+        this.count = count;
+    }
 
     public Integer roll() {
         return ((Math.abs(new Random().nextInt()) % 6) + 1) * count;
