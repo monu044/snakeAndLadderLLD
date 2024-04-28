@@ -1,12 +1,13 @@
 package com.example.demo.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Builder
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class Cell {
-    private Jump jump;
+    private final Integer position;
+    private Move move;
 }

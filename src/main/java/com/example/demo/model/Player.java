@@ -1,14 +1,20 @@
 package com.example.demo.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString
 @Getter
-@Setter
 public class Player {
-    private String id;
-    private String name;
+    private final String id;
+    private final String name;
+    @Setter
     private Integer currentPosition;
+
+    public Player(String id, String name) {
+        this.id = id;
+        this.name = name;
+        this.currentPosition = 1;
+    }
 }

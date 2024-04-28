@@ -1,46 +1,73 @@
 package com.example.demo.model;
 
-import lombok.*;
+import com.example.demo.exception.InvalidCellException;
+import com.example.demo.exception.InvalidMoveException;
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class Board {
-    private Integer size;
-    private Cell[][] board;
+    @Getter
+    private final Integer size;
+    private final List<Cell> board;
 
     public Board(Integer size) {
         this.size = size;
+        board = new ArrayList<>();
         initCell(size);
     }
 
-    public boolean addSnakeOrLadders(Jump jump, Integer position) {
-        Cell cell = getCellById(position);
-        if (null == cell.getJump()) {
-            cell.setJump(jump);
-            return true;
-        }
-        else {
-            return false;
+    public boolean addSnake(Integer startPosition, Integer endPosition) throws InvalidCellException {
+        if (startPosition < endPosition) {
+            throw new InvalidMoveException("Snake should move the player down");
+        } else {
+            Cell startingCell = getCellById(startPosition);
+            Cell endingCell = getCellById(endPosition);
+            if (Objects.equals(startingCell.getMove().getNextPosition(), startPosition)) {
+                startingCell.setMove(new Move(endPosition, "SNAKE") {
+                });
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
-    public Cell getCellById(Integer id) {
-        id --;
-        int row = id / size;
-        int column = id % size;
-        return this.board[row][column];
+    public boolean addLadder(Integer startPosition, Integer endPosition) throws InvalidCellException {
+        if (startPosition > endPosition) {
+            throw new InvalidMoveException("Ladder should move the player up");
+        } else {
+            Cell startingCell = getCellById(startPosition);
+            Cell endingCell = getCellById(endPosition);
+            if (Objects.equals(startingCell.getMove().getNextPosition(), startPosition)) {
+                startingCell.setMove(new Move(endPosition, "LADDER"));
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public boolean checkCellExists(Integer id) {
+        id--;
+        return id >= 0 && id < board.size();
+    }
+
+    public Cell getCellById(Integer id) throws InvalidCellException {
+        if (!checkCellExists(id)) {
+            throw new InvalidCellException("No cell exists with ID : " + id);
+        } else {
+            id--;
+            return board.get(id);
+        }
     }
 
     private void initCell(Integer size) {
-        this.board = new Cell[size][size];
-        for (int i = 0; i < size; ++i) {
-            for (int j = 0; j < size; ++j) {
-                board[i][j] = new Cell();
-            }
+        for (int i = 0; i < size * size; i++) {
+            board.add(new Cell(i + 1, new Move(i + 1, "DEFAULT")));
         }
     }
 }
