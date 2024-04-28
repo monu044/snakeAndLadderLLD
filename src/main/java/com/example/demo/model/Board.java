@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.enums.MoveType;
 import com.example.demo.exception.InvalidCellException;
 import com.example.demo.exception.InvalidMoveException;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class Board {
             Cell startingCell = getCellById(startPosition);
             Cell endingCell = getCellById(endPosition);
             if (Objects.equals(startingCell.getMove().getNextPosition(), startPosition)) {
-                startingCell.setMove(new Move(endPosition, "SNAKE") {
+                startingCell.setMove(new Move(endPosition, MoveType.SNAKE) {
                 });
                 return true;
             } else {
@@ -43,7 +44,7 @@ public class Board {
             Cell startingCell = getCellById(startPosition);
             Cell endingCell = getCellById(endPosition);
             if (Objects.equals(startingCell.getMove().getNextPosition(), startPosition)) {
-                startingCell.setMove(new Move(endPosition, "LADDER"));
+                startingCell.setMove(new Move(endPosition, MoveType.LADDER));
                 return true;
             } else {
                 return false;
@@ -67,7 +68,7 @@ public class Board {
 
     private void initCell(Integer size) {
         for (int i = 0; i < size * size; i++) {
-            board.add(new Cell(i + 1, new Move(i + 1, "DEFAULT")));
+            board.add(new Cell(i + 1, new Move(i + 1, MoveType.DEFAULT)));
         }
     }
 }

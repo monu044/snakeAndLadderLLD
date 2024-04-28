@@ -7,8 +7,9 @@ import java.util.Random;
 
 public class Driver {
     public static void main(String[] args) {
-        Game game = new Game(10, 1);
-        int size = 10;
+        int size = 8;
+        Game game = new Game(size, 1);
+        // Check loops
         // addSnake
         for (int i = 0; i < 5; ++i) {
             int start = Math.abs(new Random().nextInt()) % (size * size) + 1;
